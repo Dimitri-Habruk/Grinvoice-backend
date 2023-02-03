@@ -21,14 +21,35 @@ app.use('/', ticketsRouter)
 app.use('/', categoryRouter)
 app.use('/', authRouter)
 
+app.use('/images', express.static('./assets/images'));
 
 
+const path = require('path')
 
 
 app.get('/', (req, res) => {
     res.send("Welcome to Grinvoice").status(200)
     
 })
+
+app.get('/assets/images/:filename', (req, res) => {
+    const file = `assets/images/${req.params.filename}`;
+    res.sendFile(path.resolve(file));
+});
+  
+  
+app.get('/images', (req, res) => {
+    fs.readdir('assets/images', (err, files) => {
+      if (err) {
+        return res.status(500).send({ error: err });
+      }
+      res.send({ images: files });
+    });
+});
+
+
+
+
 
 const mongoURI = process.env.MONGO_URI
 mongoose.connect(mongoURI, { useNewUrlParser : true })

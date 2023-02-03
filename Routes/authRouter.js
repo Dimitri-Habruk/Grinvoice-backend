@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 authRouter.use(express.json())
 
+
 authRouter.get('/register', (req, res) => {
     Users.find()
     // .populate("ticketHolder")

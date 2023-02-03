@@ -1,22 +1,52 @@
 const express = require('express')
 const ticketsRouter = require('express').Router()
-
+const multer = require('multer')
+// const path = require('path')
+const fs = require('fs');
 const tickets = require("../models/tickets.model")
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, 'assets/images/');
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() +  '.' + file.originalname.split('.').pop());
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
+
 
 ticketsRouter.use(express.json())
 
 ticketsRouter.get('/tickets', (req, res) => {
     tickets.find()
-    .populate("ticketHolder")
+    // .populate("ticketHolder")
     .then((tickets) => res.json(tickets))
     .catch((err) => res.json(err))
 })
 
-ticketsRouter.post('/tickets', (req, res) => {
-    tickets
-    .create(req.body)
-    .then(newTicket => res.json(newTicket))
-    .catch((err) => res.json(err))
+ticketsRouter.post('/tickets', upload.single('image'), (req, res) => {
+    try{
+        const ticket = new tickets({
+            name: req.body.name,
+            image: '/assets/images/' + req.file.filename
+        });
+
+        ticket.save()
+        res.status(201).json(ticket)
+    }
+    
+    catch(err){
+        res.json(err)
+    }
+   
+    // tickets
+    // .create(req.body)
+    // .then(newTicket => res.json(newTicket))
+    // .catch((err) => res.json(err))
 })
 
 ticketsRouter.get('/tickets/:id' , (req, res) => {
