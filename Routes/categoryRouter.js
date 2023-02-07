@@ -1,16 +1,16 @@
-const express = require('express')
-const categoryRouter = require('express').Router()
+// const express = require('express')
+// const categoryRouter = require('express').Router()
 
-const category = require("../models/category.model")
+// const category = require("../models/category.model")
 
-categoryRouter.use(express.json())
+// categoryRouter.use(express.json())
 
-categoryRouter.get('/category', (req, res) => {
-    category.find()
-    // .populate("ticketHolder")
-    .then((category) => res.json(category))
-    .catch((err) => res.json(err))
-})
+// categoryRouter.get('/category', (req, res) => {
+//     category.find()
+//     // .populate("ticketHolder")
+//     .then((category) => res.json(category))
+//     .catch((err) => res.json(err))
+// })
 /*
 ticketsRouter.post('/tickets', (req, res) => {
     tickets
@@ -50,4 +50,4 @@ categoryRouter.get('/tickets/user/:id' , (req, res) => {
     .catch((err) => console.log(err))
 })
 */
-module.exports = categoryRouter
+// module.exports = categoryRouter

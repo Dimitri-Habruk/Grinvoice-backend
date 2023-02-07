@@ -7,10 +7,14 @@ authRouter.use(express.json())
 
 
 authRouter.get('/register', (req, res) => {
+    try {
     Users.find()
     // .populate("ticketHolder")
     .then((users) => res.json(users))
-    .catch((err) => res.json(err))
+    }
+    catch(error) {
+        res.status(500).json({ success : false, message : error })
+    }
 })
 
 authRouter.post('/register', async (req, res ) => {

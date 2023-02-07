@@ -3,7 +3,6 @@ const mongoose = require("mongoose")
 const cors = require('cors');
 const app = express()
 require("dotenv").config()
-
 app.use(cors())
 
 const port = process.env.PORT
@@ -18,7 +17,7 @@ const authRouter = require("./Routes/authRouter");
 
 app.use('/', usersRouter)
 app.use('/', ticketsRouter)
-app.use('/', categoryRouter)
+// app.use('/', categoryRouter)
 app.use('/', authRouter)
 
 app.use('/images', express.static('./assets/images'));
@@ -36,14 +35,14 @@ app.get('/assets/images/:filename', (req, res) => {
     const file = `assets/images/${req.params.filename}`;
     res.sendFile(path.resolve(file));
 });
-  
-  
+
+
 app.get('/images', (req, res) => {
     fs.readdir('assets/images', (err, files) => {
-      if (err) {
-        return res.status(500).send({ error: err });
-      }
-      res.send({ images: files });
+        if (err) {
+            return res.status(500).send({ error: err });
+        }
+        res.send({ images: files });
     });
 });
 
